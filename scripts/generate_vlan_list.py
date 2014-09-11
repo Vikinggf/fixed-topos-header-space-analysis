@@ -9,22 +9,22 @@ from time import time, clock
 
 st = time()
 output_path = "tf_stanford_backbone"
-rtr_names = [("bbra_rtr",None),
-			 ("bbrb_rtr",None),
-			 ("boza_rtr",None),
-			 ("bozb_rtr",None),
+rtr_names = [("bbra_rtr",0),
+			 ("bbrb_rtr",0),
+			 ("boza_rtr",0),
+			 ("bozb_rtr",0),
 			 ("coza_rtr",580),
 			 ("cozb_rtr",580),
-			 ("goza_rtr",None),
-			 ("gozb_rtr",None),
-			 ("poza_rtr",None),
-			 ("pozb_rtr",None),
-			 ("roza_rtr",None),
-			 ("rozb_rtr",None),
+			 ("goza_rtr",0),
+			 ("gozb_rtr",0),
+			 ("poza_rtr",0),
+			 ("pozb_rtr",0),
+			 ("roza_rtr",0),
+			 ("rozb_rtr",0),
 			 ("soza_rtr",580),
 			 ("sozb_rtr",580),
-			 ("yoza_rtr",None),
-			 ("yozb_rtr",None),
+			 ("yoza_rtr",0),
+			 ("yozb_rtr",0),
 			 ]
 
 def subnetsize(subnet):

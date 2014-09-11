@@ -1,0 +1,27 @@
+diff --git a/hsa-python/config_parser/cisco_router_parser.py b/hsa-python/config_parser/cisco_router_parser.py
+index 71f3df6..e272393 100644
+--- a/hsa-python/config_parser/cisco_router_parser.py
++++ b/hsa-python/config_parser/cisco_router_parser.py
+@@ -53,6 +53,8 @@ class cisco_router(object):
+     self.configed_vlans = {}
+     # list of ports configured on this switch
+     self.config_ports = set()
++    # map from interface name to ip address
++    self.port_ips = {}
+ 
+     
+     self.switch_id = switch_id
+@@ -433,7 +435,11 @@ class cisco_router(object):
+     access_vlan = None
+     port_mode = None
+     for (line,line_counter) in iface_info:
+-      if line.startswith("shutdown"):
++      if line.startswith("ip address"):
++        ip_tokens = line.split(' ')
++        if "secondary" not in ip_tokens or iface not in self.port_ips:
++          self.port_ips[iface] = dotted_ip_to_int(ip_tokens[2])
++      elif line.startswith("shutdown"):
+         shutdown = True
+       elif line.startswith("switchport mode"):
+         tokens = line.split()
+

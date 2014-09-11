@@ -1,0 +1,28 @@
+# Check out those submodules!
+
+[[ $- != *i* ]] && set -e -u -x
+
+ORGDIR=$PWD
+
+cd hassel-public/hsa-python
+bash ./setup.sh
+cd $ORGDIR
+export PYTHONPATH=$PWD/hassel-public/hsa-python
+
+ln -s example_utils/emulated_tf.py hassel-public/hsa-python/examples/
+ln -s ../nu_smv/nu_smv_generator.py hassel-public/hsa-python/headerspace/
+cd hassel-public/hsa-python/examples/stanford
+python2 generate_stanford_backbone_tf.py
+cd $ORGDIR
+ln -s hassel-public/hsa-python/examples/stanford/tf_stanford_backbone
+ln -s topology.tf tf_stanford_backbone/backbone_topology.tf
+
+ln -s hassel-public/hsa-python/examples/stanford/Stanford_backbone 
+
+cd hassel-public
+git apply ../hassel_patch.diff
+cd $ORGDIR
+
+# no joke
+#
+# And no, the scripts based on hassel-public-old won't work without this

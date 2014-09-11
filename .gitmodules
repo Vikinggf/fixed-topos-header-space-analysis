@@ -1,0 +1,9 @@
+[submodule "scripts/hassel-public"]
+	path = scripts/hassel-public
+	url = https://bitbucket.org/peymank/hassel-public
+[submodule "scripts/hassel-public-old"]
+	path = scripts/hassel-public-old
+	url = https://bitbucket.org/peymank/hassel-public
+[submodule "topoS"]
+	path = topoS
+	url = https://github.com/diekmann/topoS
