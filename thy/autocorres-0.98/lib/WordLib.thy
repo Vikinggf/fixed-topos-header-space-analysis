@@ -153,7 +153,7 @@ lemma and_mask_arith':
   "0 < n \<Longrightarrow> w AND mask n = ((w * (2 ^ (size w - n))) div (2 ^ (size w - n)))"
   apply (simp add : and_mask)
   apply (simp add : shiftr_div_2n_w shiftl_t2n word_size)
-  apply (simp add : mult_commute)
+  apply (simp add : mult.commute)
   done
 
 lemma mask_0 [simp]: "mask 0 = 0"
@@ -285,7 +285,7 @@ lemmas bin_sc_minus_simps =
 
 lemma NOT_eq: "NOT (x :: 'a :: len word) = - x - 1"
   apply (cut_tac x = "x" in word_add_not)
-  apply (drule add_commute [THEN trans])
+  apply (drule add.commute [THEN trans])
   apply (drule eq_diff_eq [THEN iffD2])
   by simp
 
@@ -310,7 +310,7 @@ lemma le_m1_iff_lt: "(x > (0 :: 'a :: len word)) = ((y \<le> x - 1) = (y < x))"
   done
 
 lemmas gt0_iff_gem1 =
-  iffD1 [OF iffD1 [OF eq_left_commute le_m1_iff_lt] order_refl]
+  iffD1 [OF iffD1 [OF iff_left_commute le_m1_iff_lt] order_refl]
 
 lemmas power_2_ge_iff = trans [OF gt0_iff_gem1 [THEN sym] power_2_pos_iff]
 
@@ -423,7 +423,7 @@ lemma shiftl_shiftl:
   shows "a << b << c = a << (b + c)"
  apply(rule word_eqI)
  apply(auto simp:word_size nth_shiftl
-                 add_commute add_left_commute)
+                 add.commute add.left_commute)
 done
 
 lemma shiftr_shiftr:
@@ -431,7 +431,7 @@ lemma shiftr_shiftr:
   shows "a >> b >> c = a >> (b + c)"
  apply(rule word_eqI)
  apply(simp add:word_size nth_shiftr
-                add_left_commute add_commute)
+                add.left_commute add.commute)
 done
 
 lemma shiftl_shiftr1:
@@ -572,7 +572,7 @@ lemma sint_1 [simp]:
    apply (metis diff_is_0_eq sbintrunc_0_numeral(1) sint_n1 word_1_wi
            word_m1_wi word_msb_1 word_msb_n1 word_sbin.Abs_norm)
   apply (metis bin_nth_1 diff_is_0_eq neq0_conv sbintrunc_minus_simps(4)
-            sint_word_ariths(9) uint_1 word_msb_1 word_msb_nth)
+            sint_word_ariths(8) uint_1 word_msb_1 word_msb_nth)
   done
 
 lemma scast_1':
@@ -603,8 +603,7 @@ lemma scast_ucast_norm [simp]:
 
 lemma of_bl_drop:
   "of_bl (drop n xs) = (of_bl xs && mask (length xs - n))"
-  apply (clarsimp simp: bang_eq word_and_nth test_bit_of_bl
-                        rev_nth
+  apply (clarsimp simp: bang_eq test_bit_of_bl rev_nth
                   cong: rev_conj_cong)
   apply (safe, simp_all add: word_size to_bl_nth)
   done

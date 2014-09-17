@@ -1,5 +1,5 @@
 theory PrefixMatch
-imports "autocorres-0.97/lib/WordLemmaBucket" IPv4Addr
+imports IPv4Addr "autocorres-0.98/lib/WordLemmaBucket"
 begin
 
 subsection{*Definition*}
@@ -209,8 +209,8 @@ lemma range_prefix_match_set_eq:
   unfolding range_prefix_match_def ipset_prefix_match_def Let_def 
   using ipv4rq_intersection_set_eq ipv4rq_setminus_set_eq prefix_to_range_set_eq  by simp
 lemma range_prefix_match_sm[simp]:  "ipv4rq_to_set (fst (range_prefix_match pfx rg)) = fst (ipset_prefix_match pfx (ipv4rq_to_set rg))"
-  by (metis map_pair_def range_prefix_match_set_eq fst_map_pair)
+  by (metis fst_conv ipset_prefix_match_m  ipv4rq_intersection_set_eq prefix_to_range_set_eq range_prefix_match_def)
 lemma range_prefix_match_snm[simp]: "ipv4rq_to_set (snd (range_prefix_match pfx rg)) = snd (ipset_prefix_match pfx (ipv4rq_to_set rg))"
-  by (metis map_pair_def range_prefix_match_set_eq snd_prod_fun)
+  by (metis snd_conv ipset_prefix_match_nm ipv4rq_setminus_set_eq     prefix_to_range_set_eq range_prefix_match_def)
 
 end

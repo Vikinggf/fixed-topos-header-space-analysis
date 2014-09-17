@@ -75,7 +75,7 @@ lemma NOT_mask_len32: "NOT ((mask len << (32 - len))::32 word) = (mask (32 - len
         have "uint (max_word::32 word) < 4294967296" by(simp add: max_word_def)
         from False have simp1: "uint ((2\<Colon>32 word) ^ (32 - len) * ((2\<Colon>32 word) ^ len - 1)) = 
             uint ((2\<Colon>32 word) ^ (32 - len)) * uint ((2\<Colon>32 word) ^ len - 1) mod 2^32"
-          by(simp add: Word.uint_word_ariths(4))
+          by(simp add: Word.uint_word_ariths)
         have "(2::32 word) ^ (32 - len) = word_of_int ((2::int) ^ (32 - len))" by (metis word_of_int_2p)
         from False this have simp2: "uint ((2::32 word) ^ (32 - len)) = 2 ^ (32 - len)"
           apply(simp only: uint_word_of_int)

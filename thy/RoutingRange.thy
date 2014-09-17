@@ -23,7 +23,7 @@ lemma range_destination_eq:
    apply(case_tac[!] "snd (ipset_prefix_match (routing_match a) (ipv4rq_to_set rg)) = {}")
      apply(simp_all only: refl if_True if_False range_prefix_match_sm[symmetric] range_prefix_match_snm[symmetric] ipv4rq_empty_set_eq Un_empty_left Un_empty_right)
      apply(simp_all)[3]
-  apply(simp only: set_append set.simps)
+  apply(simp only: set_append set_simps)
   apply blast
 done
 
@@ -55,7 +55,7 @@ lemma range_destination_eq2:
       set (map ?maf (range_destination rtbl (snd (range_prefix_match (routing_match a) rg))))"
     using goal1(1)[OF *[symmetric]] by simp
     show ?case unfolding ** ***
-     by(simp only: set_map set_append set.simps if_False image_Un ne image_empty image_insert)
+     by(simp only: set_map set_append set_simps if_False image_Un ne image_empty image_insert)
   qed
 
 definition "range_rel r = {(ip,port)|ip port rg. (rg,port) \<in> set r \<and> ip \<in> ipv4rq_to_set rg}"

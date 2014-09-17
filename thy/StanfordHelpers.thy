@@ -11,8 +11,16 @@ lemma snd_add_backlinks: "snd ` add_backlinks x = snd ` x \<union> fst ` x"
   unfolding add_backlinks_def image_Un by force
 lemma fst_add_backlinks: "fst ` add_backlinks x = snd ` x \<union> fst ` x"
   unfolding add_backlinks_def image_Un by force
+lemma finite_mod: "finite x \<Longrightarrow> finite {f e|e. e \<in> x}" by simp
 lemma finite_add_backlinks_finite[simp]: "finite (add_backlinks l) = finite l"
-  unfolding add_backlinks_def by force
+  unfolding add_backlinks_def 
+  proof
+    let ?backlinks = "{(to, from) |from to. (from, to) \<in> l}"
+    have *: "?backlinks = {(snd e, fst e)|e. e \<in> l}" by simp
+    case goal2
+    have "finite ?backlinks" using finite_mod[OF goal2] * by metis
+    with goal2 show "finite (l \<union> ?backlinks)" by simp
+qed simp
 
 definition "block_reoutput fwd_fun = (\<lambda>e p h. fwd_fun e p h - {p})"
 

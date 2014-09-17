@@ -1,9 +1,11 @@
+(*  Title:      IPv4Addr.thy
+    Authors:    Julius Michaelis, Cornelius Diekmann
+*)
 theory IPv4Addr
 imports Main
   NumberWang
   "~~/src/HOL/Word/Word"
   "~~/src/HOL/Library/Code_Target_Nat" (*!*)
-  CaesarTheories
 begin
 
 value "(2::nat) < 2^32" (*without Code_Target_Nat, this would be rally slow*)
@@ -75,7 +77,7 @@ subsection{*Representing IPv4 Adresses*}
   lemma "ipv4addr_of_dotteddecimal (192, 168, 0, 1) = 3232235521" by eval
   lemma "dotteddecimal_of_ipv4addr 3232235521 = (192, 168, 0, 1)" by eval
 
-  text{*a different notation for ipv4addr_of_dotteddecimal*}
+  text{*a different notation for @{term ipv4addr_of_dotteddecimal}*}
   lemma ipv4addr_of_dotteddecimal_bit: 
     "ipv4addr_of_dotteddecimal (a,b,c,d) = (ipv4addr_of_nat a << 24) + (ipv4addr_of_nat b << 16) + (ipv4addr_of_nat c << 8) + ipv4addr_of_nat d"
   proof -
@@ -196,7 +198,7 @@ subsection{*Representing IPv4 Adresses*}
 subsection{*IP ranges*}
   lemma UNIV_ipv4addrset: "(UNIV \<Colon> ipv4addr set) = {0 .. max_ipv4_addr}"
     by(auto)
-  value [code] "(42::ipv4addr) \<in> UNIV"
+  value (code) "(42::ipv4addr) \<in> UNIV"
 
 
   (*Warning, not executable!*)
@@ -347,6 +349,7 @@ subsection{*IP ranges*}
     "list_to_ipv4range [r] = r" |
     "list_to_ipv4range (r#rs) = (IPv4Union r (list_to_ipv4range rs))" |
     "list_to_ipv4range [] = IPv4Range 2 1"
+
   lemma list_to_ipv4range_set_eq: "(\<Union>set (map ipv4range_to_set rs)) = ipv4range_to_set (list_to_ipv4range rs)"
     by(induction rs rule: list_to_ipv4range.induct) simp_all
     
@@ -524,7 +527,7 @@ subsection{*IP ranges*}
      apply(simp only: ipv4range_setminus.simps)
      apply(case_tac [!] "r1e \<le> r2e", case_tac [!] "r2s \<le> r1s")
            apply(auto)
-     apply(metis (hide_lams, no_types) comm_semiring_1_class.normalizing_semiring_rules(24) inc_i ip_prev_def le_minus min_max.le_iff_inf word_le_sub1 word_zero_le)
+     apply(metis (hide_lams, no_types) comm_semiring_1_class.normalizing_semiring_rules(24) inc_i ip_prev_def le_minus min.absorb_iff1 word_le_sub1 word_zero_le)
     apply(metis inc_le ip_next_def max.order_iff)
   done
 
@@ -669,7 +672,7 @@ subsection{*IP ranges*}
 
   lemma ipv4range_lowest_element_set_eq: "
     \<not>ipv4range_empty r \<Longrightarrow>
-    ipv4range_lowest_element r = Some x \<longleftrightarrow> is_lowest_element x (ipv4range_to_set r)"
+    (ipv4range_lowest_element r = Some x) = (is_lowest_element x (ipv4range_to_set r))"
     unfolding is_lowest_element_def
     apply(rule iffI)
     using ipv4range_lowest_element_correct_A ipv4range_lowest_none_empty apply simp
@@ -734,13 +737,13 @@ subsection{*IP ranges*}
   lemma ipv4rq_lowest_in:
     assumes "\<not>ipv4rq_empty r"
     shows "ipv4rq_element (the (ipv4rq_lowest_element r)) r" 
-  using assms by(transfer, metis ipv4range_lowest_element_correct_A ipv4range_lowest_none_empty option.exhaust the.simps)
-
+  using assms by(transfer, metis ipv4range_lowest_element_correct_A ipv4range_lowest_none_empty option.exhaust option.sel)
+  
   fun list_to_ipv4rq :: "ipv4rq list \<Rightarrow> ipv4rq" where
     "list_to_ipv4rq [] = ipv4rq_setminus ipv4rq_UNIV ipv4rq_UNIV" |
     "list_to_ipv4rq [x] = x" |
     "list_to_ipv4rq (x#xs) = ipv4rq_union x (list_to_ipv4rq xs)"
   lemma list_to_ipv4rq_set_eq[simp]: "ipv4rq_to_set (list_to_ipv4rq rs) = (\<Union>set (map ipv4rq_to_set rs))"
     by(induction rs rule: list_to_ipv4rq.induct) simp_all
-  
+    
 end

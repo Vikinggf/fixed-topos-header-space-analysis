@@ -116,7 +116,7 @@ next
   have "\<Union>(fst ` reduced_ipset_destination tbl UNIV) = UNIV" 
     unfolding reduced_ipset_destination_def
     unfolding left_reduce_preimage_stable
-    using ipset_destination_complete[unfolded complete_lattice_class.SUP_def] .
+    using ipset_destination_complete by simp
   note Union_intersection_helper[OF calculation this]
   then show ?case unfolding allroutingsets.simps alltablesets_def by simp
 qed
